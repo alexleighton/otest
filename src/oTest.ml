@@ -79,12 +79,12 @@ struct
         then ( print_msg "ok" true;
                true,(Some aoutput),"passed" )
         else ( print_msg "failed" true;
-               print_msg "    reason: expected output not received.\n" true;
+               print_msg "    reason: expected output not received\n" true;
                false,(Some aoutput),"expected output not received." )
     with
       | Fail msg ->
           print_msg "failed" true;
-          print_msg (Printf.sprintf "    reason: %s\n\n" msg) true;
+          print_msg (Printf.sprintf "    reason: %s\n" msg) true;
           false,None,msg
 
   let run_tests () =
