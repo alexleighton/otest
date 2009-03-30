@@ -20,10 +20,10 @@ OCAMLFLAGS = -for-pack $(PROGRAM)
 
 lib: $(OCamlLibrary $(PROGRAM), $(FILES))
     mkdir -p ../$(DISTDIR)
-    cp $(PROGRAM).cm[ia] $(PROGRAM).cmxa ../$(DISTDIR)
+    cp $(PROGRAM).cm[ia] $(PROGRAM).cmxa $(PROGRAM).[ao] ../$(DISTDIR)
 
 install: lib
-    $(OCAMLFIND) install otest META oTest.cmi oTest.cma oTest.cmxa
+    $(OCAMLFIND) install otest META oTest.cm[ia] oTest.cmxa oTest.[ao]
 
 ##################################################
 #  Remove the library
