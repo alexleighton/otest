@@ -1,0 +1,51 @@
+PROGRAM = $(NAME)
+FILES = oTest
+
+USE_OCAMLFIND = true
+
+if $(not $(OCAMLFIND_EXISTS))
+    eprintln(This project requires ocamlfind, but is was not found.)
+    eprintln(You need to install ocamlfind and run "omake --configure".)
+    exit 1
+
+BYTE_ENABLED = true
+NATIVE_ENABLED = true
+
+#  this is to remove -warn-error that is on by default
+#  and also to add the -for-pack switch.
+OCAMLFLAGS = -for-pack $(PROGRAM)
+
+##################################################
+#  Build a library
+
+lib: $(OCamlLibrary $(PROGRAM), $(FILES))
+    mkdir -p ../$(DISTDIR)
+    cp $(PROGRAM).cm[ia] $(PROGRAM).cmxa ../$(DISTDIR)
+
+install: lib
+    $(OCAMLFIND) install otest META oTest.cmi oTest.cma oTest.cmxa
+
+##################################################
+#  Remove the library
+
+uninstall: clean
+    $(OCAMLFIND) remove otest
+
+##################################################
+#  Create documentation
+
+doc: lib
+    mkdir -p ../$(DOCDIR) ../$(DISTDIR)
+    ocamldoc -html -d ../$(DOCDIR) -t "$(NAME) Documentation" -hide-warnings -sort *.ml
+    tar -c ../$(DOCDIR) | gzip -f --best > ../$(DISTDIR)/doc-$(NAME).tar.gz
+
+##################################################
+#  Clean up
+
+clean:
+    rm -f *.cm[aiox] *.[ao] *.cmxa
+    rm -f $(PROGRAM) $(PROGRAM).opt $(PROGRAM).run
+    rm -rf ../$(DOCDIR)
+
+dist-clean: clean
+    rm -rf *.omc

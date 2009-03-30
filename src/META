@@ -1,0 +1,5 @@
+version = "0.8"
+description = "An OCaml unit testing framework."
+requires = ""
+archive(byte) = "oTest.cma"
+archive(native) = "oTest.cmxa"

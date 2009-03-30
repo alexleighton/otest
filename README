@@ -1,0 +1,65 @@
+
+
+    OTest - An OCaml unit testing framework.
+
+                             ~~~
+
+    OTest provides a functorial unit testing framework for
+    OCaml. It's intended to be a quick and type-safe way of
+    testing everyday code.
+
+    OTest is packaged as a single module `OTest'. Linking is
+    done as follows:
+        bytecode:    ocamlc   oTest.cma
+        native code: ocamlopt oTest.cmxa
+
+                             ~~~
+
+    An Example:   Tests some factorial code.
+
+        open OTest
+
+        let rec fact n =
+          if n = 0 then 1 else n * fact (n-1)
+
+        module FactCollection = struct
+          type input    = int list
+          type output   = unit
+          type testcase =
+            string * input * (input->output) * output
+
+          let name = "TestFactorial"
+
+          let list = [1;2;3;4;5;6;7;8;9;10;11;12;13;14;15]
+
+          let testfact l =
+            assert_equal ~msg:"Factorial has problems."
+              (List.fold_left ( * ) 1 l)
+              (fact (List.length l))
+
+          let tests = [ "definition",list,testfact,() ]
+        end
+        module Tester = TestHarness(FactCollection)
+
+        let _ = set_verbosity On; Tester.run_tests ()
+
+                             ~~~
+
+    OTest: an OCaml unit test framework
+    Copyright (C) 2009  Alex Leighton
+
+    This program is free software: you can redistribute it
+    and/or modify it under the terms of the GNU General
+    Public License as published by the Free Software
+    Foundation, either version 3 of the License, or (at your
+    option) any later version.
+
+    This program is distributed in the hope that it will be
+    useful, but WITHOUT ANY WARRANTY; without even the
+    implied warranty of MERCHANTABILITY or FITNESS FOR A
+    PARTICULAR PURPOSE. See the GNU General Public License
+    for more details.
+
+    You should have received a copy of the GNU General
+    Public License along with this program. If not, see
+    <http://www.gnu.org/licenses/>.

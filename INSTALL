@@ -1,0 +1,24 @@
+
+
+    ~ Building OTest ~
+
+        $ omake
+
+
+    ~ Installation ~
+
+        $ omake install
+            OR
+        $ sudo omake install
+
+
+    ~ Uninstallation ~
+
+        $ omake uninstall
+            OR
+        $ sudo omake uninstall
+
+
+    ~ Documentation ~
+
+        $ omake doc
